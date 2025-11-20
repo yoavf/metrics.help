@@ -10,9 +10,14 @@ import React from 'react';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Fetch JetBrains Mono font
+// Fetch fonts
 const monoFontData = await fetch(
   'https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Bold.ttf'
+).then((res) => res.arrayBuffer());
+
+// Using a sans font from a CDN that provides compatible font formats
+const sansFontData = await fetch(
+  'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fMZhrib2Bg-4.ttf'
 ).then((res) => res.arrayBuffer());
 
 async function generateOGImage(title, type = 'metric') {
@@ -67,10 +72,10 @@ async function generateOGImage(title, type = 'metric') {
               fontWeight: '900',
               color: '#000',
               textAlign: 'center',
-              marginBottom: '40px',
+              marginBottom: '60px',
               lineHeight: '1.1',
               letterSpacing: type === 'home' ? '-0.02em' : '0',
-              fontFamily: '"JetBrains Mono", monospace',
+              fontFamily: type === 'home' ? '"Inter", sans-serif' : '"JetBrains Mono", monospace',
             }
           }, title),
           React.createElement('div', {
@@ -78,9 +83,9 @@ async function generateOGImage(title, type = 'metric') {
             style: {
               fontSize: '42px',
               fontWeight: '700',
-              color: '#52525B',
+              color: '#000',
               textAlign: 'center',
-              backgroundColor: bgColor,
+              backgroundColor: '#A7F3D0',
               padding: '20px 40px',
               border: '3px solid #000',
             }
@@ -91,7 +96,14 @@ async function generateOGImage(title, type = 'metric') {
     {
       width: 1200,
       height: 630,
-      fonts: [
+      fonts: type === 'home' ? [
+        {
+          name: 'Inter',
+          data: sansFontData,
+          style: 'normal',
+          weight: 900,
+        },
+      ] : [
         {
           name: 'JetBrains Mono',
           data: monoFontData,
@@ -114,7 +126,7 @@ async function main() {
   // Generate homepage OG image
   console.log('Generating homepage OG image...');
   const homepageImage = await generateOGImage(
-    'Simple, visual explanations for ML metrics & algorithms',
+    'Machine learning metrics explained',
     'home'
   );
   const homepageBuffer = Buffer.from(await homepageImage.arrayBuffer());

@@ -2,10 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
 
-const Sidebar = ({ metrics, algorithms, onShowCredits }) => {
+const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleCollapse }) => {
     const location = useLocation();
     const [openSection, setOpenSection] = React.useState('algorithms');
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
     // Auto-expand section based on URL
@@ -170,7 +169,7 @@ const Sidebar = ({ metrics, algorithms, onShowCredits }) => {
             <aside className={`hidden md:flex flex-col fixed h-full bg-surface border-r-2 border-black z-10 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}>
                 {/* Collapse/Expand Button */}
                 <button
-                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    onClick={() => onToggleCollapse(!isCollapsed)}
                     className="absolute -right-3 top-24 bg-accent-yellow border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 transition-all z-20"
                     title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 >

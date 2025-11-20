@@ -4,10 +4,10 @@ import LogAnalyzer from '../components/LogAnalyzer';
 
 const LandingPage = ({ metrics }) => (
     <div className="animate-in fade-in pt-16 pb-20 px-4 md:px-6 max-w-7xl mx-auto overflow-x-hidden">
-        <header className="mb-20 relative overflow-hidden">
+        <header className="mb-20 relative">
             {/* Decorative Elements */}
             <div className="absolute -top-10 right-0 w-32 h-32 bg-accent-yellow border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-12 hidden md:block"></div>
-            <div className="absolute top-20 -left-10 w-16 h-16 bg-accent-pink border-2 border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden md:block"></div>
+            <div className="absolute top-2 -left-6 w-12 h-12 bg-accent-pink border-2 border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hidden md:block"></div>
 
             <div className="relative z-10 max-w-6xl">
                 <div className="inline-block bg-accent-cyan border-2 border-black px-4 py-2 font-black uppercase tracking-wider text-sm mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -21,7 +21,7 @@ const LandingPage = ({ metrics }) => (
                         </span>
                     </h1>
                     <p className="text-xl md:text-2xl text-text-muted font-medium max-w-md leading-relaxed border-l-4 md:border-l-8 border-accent-yellow pl-4 md:pl-6 mb-2">
-                        Simple, visual explanations for your machine learning training runs.
+                        Machine learning metrics and algorithms, explained.
                     </p>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 # metrics.help
 
-Simple, visual explanations for machine learning metrics and algorithms.
+Machine learning metrics and algorithms, explained.
 
 ## What is this?
 
