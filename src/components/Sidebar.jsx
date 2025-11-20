@@ -140,7 +140,7 @@ const Sidebar = ({ metrics, algorithms, onShowCredits }) => {
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden fixed top-4 left-4 z-50 bg-accent-yellow border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                className="md:hidden fixed top-4 right-4 z-50 bg-accent-yellow border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                 aria-label="Open menu"
             >
                 <Menu className="w-6 h-6 text-black" />
