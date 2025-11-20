@@ -58,7 +58,7 @@ const CreditsModal = ({ isOpen, onClose }) => {
 
                     <div>
                         <h3 className="font-black text-lg mb-2">License</h3>
-                        <p className="font-medium">Code: <a href="https://github.com/yoavf/metrics.help/LICENSE">MIT</a> </p>
+                        <p className="font-medium">Code: <a href="https://github.com/yoavf/metrics.help/blob/main/LICENSE">MIT</a> </p>
                         <p className="font-medium">Content: <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a> </p>
                     </div>
                 </div>
