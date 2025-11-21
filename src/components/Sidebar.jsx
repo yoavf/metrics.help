@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
+import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X, Search } from 'lucide-react';
 
 const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleCollapse }) => {
     const location = useLocation();
     const [openSection, setOpenSection] = React.useState('algorithms');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const searchInputRef = React.useRef(null);
 
     // Auto-expand section based on URL
     React.useEffect(() => {
@@ -21,23 +23,107 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
         setIsMobileMenuOpen(false);
     }, [location.pathname]);
 
+    // Refocus search input after filtering updates
+    React.useEffect(() => {
+        if (searchQuery && searchInputRef.current && document.activeElement !== searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [searchQuery]);
+
     const toggleSection = (section) => {
         setOpenSection(openSection === section ? null : section);
     };
 
-    const SidebarContent = ({ isMobile = false }) => (
-        <>
-            <div className="p-6 border-b-2 border-black">
-                <Link to="/" className="flex items-center gap-3 group">
-                    <div className="bg-accent-yellow border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 transition-transform flex-shrink-0">
-                        <Activity className="text-black w-6 h-6" />
-                    </div>
-                    {(!isCollapsed || isMobile) && <span className="font-black text-xl tracking-tighter whitespace-nowrap">metrics.help</span>}
-                </Link>
-            </div>
+    // Filter metrics and algorithms based on search
+    const filterItems = (items, query) => {
+        if (!query.trim()) return items;
+        const lowerQuery = query.toLowerCase();
+        return items.filter(item =>
+            item.name.toLowerCase().includes(lowerQuery) ||
+            item.id.toLowerCase().includes(lowerQuery) ||
+            (item.aliases && item.aliases.some(alias => alias.toLowerCase().includes(lowerQuery)))
+        );
+    };
 
-            {(!isCollapsed || isMobile) && (
-                <nav className="flex-1 px-4 py-6 flex flex-col gap-2 overflow-y-auto">
+    const filteredMetrics = filterItems(metrics, searchQuery);
+    const filteredAlgorithms = filterItems(algorithms, searchQuery);
+    const isSearching = searchQuery.trim().length > 0;
+
+    const renderHeader = (isMobile) => (
+        <div className="p-6 border-b-2 border-black">
+            <Link to="/" className="flex items-center gap-3 group">
+                <div className="bg-accent-yellow border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-1 transition-transform flex-shrink-0">
+                    <Activity className="text-black w-6 h-6" />
+                </div>
+                {(!isCollapsed || isMobile) && <span className="font-black text-xl tracking-tighter whitespace-nowrap">metrics.help</span>}
+            </Link>
+        </div>
+    );
+
+    const renderNav = () => (
+        <nav className="flex-1 px-4 py-6 flex flex-col gap-2 overflow-y-auto">
+            {/* Search Input */}
+            <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+                <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-8 py-2 border-2 border-black bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:border-black placeholder:text-text-muted"
+                />
+                {searchQuery && (
+                    <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-text-muted hover:text-black transition-colors"
+                        aria-label="Clear search"
+                    >
+                        <X className="w-4 h-4" />
+                    </button>
+                )}
+            </div>
+            {/* When searching, show flat list of results */}
+            {isSearching ? (
+                <div className="animate-in fade-in duration-200">
+                    {filteredMetrics.map(metric => {
+                        const isActive = location.pathname === `/metric/${metric.id}`;
+                        return (
+                            <Link
+                                key={metric.id}
+                                to={`/metric/${metric.id}`}
+                                className={`px-4 py-3 font-bold border-2 transition-all duration-200 flex items-center gap-3 mb-2 ${isActive
+                                    ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(139,92,246,0)] translate-x-1'
+                                    : 'bg-transparent border-transparent text-text-muted hover:bg-accent-yellow hover:text-black hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                                    }`}
+                            >
+                                {isActive && <span className="text-accent-pink">●</span>}
+                                {metric.name}
+                            </Link>
+                        );
+                    })}
+                    {filteredAlgorithms.map(algo => {
+                        const isActive = location.pathname === `/algorithm/${algo.id}`;
+                        return (
+                            <Link
+                                key={algo.id}
+                                to={`/algorithm/${algo.id}`}
+                                className={`px-4 py-3 font-bold border-2 transition-all duration-200 flex items-center gap-3 mb-2 ${isActive
+                                    ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(139,92,246,0)] translate-x-1'
+                                    : 'bg-transparent border-transparent text-text-muted hover:bg-accent-pink hover:text-black hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                                    }`}
+                            >
+                                {isActive && <span className="text-accent-yellow">●</span>}
+                                {algo.name}
+                            </Link>
+                        );
+                    })}
+                    {filteredMetrics.length === 0 && filteredAlgorithms.length === 0 && (
+                        <p className="text-text-muted text-sm px-4 py-2">No results found</p>
+                    )}
+                </div>
+            ) : (
+                <>
                     {/* Metrics Section */}
                     <div>
                         <button
@@ -101,37 +187,39 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                             </div>
                         )}
                     </div>
-                </nav>
+                </>
             )}
+        </nav>
+    );
 
-            <div className={`p-4 border-t-2 border-black bg-bg flex flex-col gap-2 ${isCollapsed && !isMobile ? 'items-center' : ''}`}>
-                {isCollapsed && !isMobile ? (
-                    <>
-                        <button
-                            onClick={onShowCredits}
-                            className="p-3 border-2 border-black bg-white hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                            title="Credits"
-                        >
-                            <Info size={18} />
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <a href="https://github.com/yoavf/metrics.help" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-cyan hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-                            <Github size={18} />
-                            <span>Open Source</span>
-                        </a>
-                        <button
-                            onClick={onShowCredits}
-                            className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                        >
-                            <Info size={18} />
-                            <span>Credits</span>
-                        </button>
-                    </>
-                )}
-            </div>
-        </>
+    const renderFooter = (isMobile) => (
+        <div className={`p-4 border-t-2 border-black bg-bg flex flex-col gap-2 ${isCollapsed && !isMobile ? 'items-center' : ''}`}>
+            {isCollapsed && !isMobile ? (
+                <>
+                    <button
+                        onClick={onShowCredits}
+                        className="p-3 border-2 border-black bg-white hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                        title="Credits"
+                    >
+                        <Info size={18} />
+                    </button>
+                </>
+            ) : (
+                <>
+                    <a href="https://github.com/yoavf/metrics.help" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-cyan hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
+                        <Github size={18} />
+                        <span>Open Source</span>
+                    </a>
+                    <button
+                        onClick={onShowCredits}
+                        className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                    >
+                        <Info size={18} />
+                        <span>Credits</span>
+                    </button>
+                </>
+            )}
+        </div>
     );
 
     return (
@@ -162,7 +250,9 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                 >
                     <X className="w-6 h-6" />
                 </button>
-                <SidebarContent isMobile={true} />
+                {renderHeader(true)}
+                {renderNav()}
+                {renderFooter(true)}
             </aside>
 
             {/* Desktop Sidebar */}
@@ -170,13 +260,15 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                 {/* Collapse/Expand Button */}
                 <button
                     onClick={() => onToggleCollapse(!isCollapsed)}
-                    className="absolute -right-3 top-24 bg-accent-yellow border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 transition-all z-20"
+                    className="absolute -right-3 top-20 bg-accent-yellow border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 transition-all z-20"
                     title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 >
                     {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
                 </button>
 
-                <SidebarContent />
+                {renderHeader(false)}
+                {!isCollapsed && renderNav()}
+                {renderFooter(false)}
             </aside>
         </>
     );
