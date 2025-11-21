@@ -12,18 +12,18 @@ visualizations:
   yDomain: [0, 50]
   healthy:
     data:
-      - { step: 0, value: 1.5 }
-      - { step: 10, value: 1.4 }
-      - { step: 20, value: 1.3 }
-      - { step: 30, value: 1.2 }
-      - { step: 40, value: 1.1 }
-      - { step: 50, value: 1.0 }
-      - { step: 60, value: 0.9 }
-      - { step: 70, value: 0.8 }
-      - { step: 80, value: 0.7 }
-      - { step: 90, value: 0.6 }
-      - { step: 100, value: 0.5 }
-    analysis: "Stable updates. The gradient norm decreases or stays steady, indicating controlled learning."
+      - { step: 0, value: 5.0 }
+      - { step: 10, value: 4.2 }
+      - { step: 20, value: 3.8 }
+      - { step: 30, value: 4.5 }
+      - { step: 40, value: 3.2 }
+      - { step: 50, value: 3.6 }
+      - { step: 60, value: 2.8 }
+      - { step: 70, value: 3.1 }
+      - { step: 80, value: 2.5 }
+      - { step: 90, value: 2.2 }
+      - { step: 100, value: 2.0 }
+    analysis: "Stable updates. The gradient norm stays in a reasonable range (1-5) with natural variation, indicating controlled learning."
   unhealthy:
     data:
       - { step: 0, value: 1.5 }

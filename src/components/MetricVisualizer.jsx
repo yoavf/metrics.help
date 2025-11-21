@@ -20,35 +20,46 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const MetricVisualizer = ({ metric }) => {
     const [mode, setMode] = useState('healthy');
-    // State for sub-scenario selection (e.g., 'refusal' vs 'repetition')
-    // We default to the first key if multiple exist
+    // State for sub-scenario selection
+    const [healthyScenario, setHealthyScenario] = useState(null);
     const [unhealthyScenario, setUnhealthyScenario] = useState(null);
 
-    // Determine if unhealthy data has multiple scenarios
+    // Determine if data has multiple scenarios
+    const healthyData = metric.visualizations.healthy;
     const unhealthyData = metric.visualizations.unhealthy;
+    const hasMultipleHealthy = healthyData && !Array.isArray(healthyData.data) && !healthyData.data;
     const hasMultipleUnhealthy = unhealthyData && !Array.isArray(unhealthyData.data) && !unhealthyData.data;
 
-    // Initialize unhealthy scenario when metric changes
+    // Initialize scenarios when metric changes
     React.useEffect(() => {
+        if (hasMultipleHealthy) {
+            setHealthyScenario(Object.keys(healthyData)[0]);
+        } else {
+            setHealthyScenario(null);
+        }
         if (hasMultipleUnhealthy) {
             setUnhealthyScenario(Object.keys(unhealthyData)[0]);
         } else {
             setUnhealthyScenario(null);
         }
-    }, [metric, hasMultipleUnhealthy]);
+    }, [metric, hasMultipleHealthy, hasMultipleUnhealthy]);
 
     // Get current display data
     let currentData, currentAnalysis;
 
     if (mode === 'healthy') {
-        currentData = metric.visualizations.healthy.data;
-        currentAnalysis = metric.visualizations.healthy.analysis;
+        if (hasMultipleHealthy && healthyScenario) {
+            currentData = healthyData[healthyScenario].data;
+            currentAnalysis = healthyData[healthyScenario].analysis;
+        } else {
+            currentData = healthyData.data;
+            currentAnalysis = healthyData.analysis;
+        }
     } else {
         if (hasMultipleUnhealthy && unhealthyScenario) {
             currentData = unhealthyData[unhealthyScenario].data;
             currentAnalysis = unhealthyData[unhealthyScenario].analysis;
         } else {
-            // Fallback for standard single-scenario metrics
             currentData = unhealthyData.data;
             currentAnalysis = unhealthyData.analysis;
         }
@@ -61,58 +72,69 @@ const MetricVisualizer = ({ metric }) => {
         <div className="neo-card p-6 md:p-8 bg-surface">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>
-                    <h3 className="text-2xl font-black uppercase flex items-center gap-3">
+                    <h3 className="text-2xl font-black uppercase">
                         Live Visualization
-                        <div className="px-2 py-1 bg-black text-white text-xs font-bold uppercase tracking-wider">
-                            Interactive
-                        </div>
                     </h3>
                     <p className="text-text-muted font-medium mt-1">
                         Toggle between healthy and unhealthy patterns
                     </p>
                 </div>
 
-                <div className="flex flex-col items-end gap-2">
-                    <div className="flex p-1 bg-bg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                        <button
-                            onClick={() => setMode('healthy')}
-                            className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'healthy'
-                                ? 'bg-accent-green text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
-                                : 'text-text-muted hover:bg-white/50'
-                                }`}
-                        >
-                            Healthy
-                        </button>
-                        <button
-                            onClick={() => setMode('unhealthy')}
-                            className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'unhealthy'
-                                ? 'bg-accent-pink text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
-                                : 'text-text-muted hover:bg-white/50'
-                                }`}
-                        >
-                            Unhealthy
-                        </button>
-                    </div>
-
-                    {/* Sub-scenario Selector */}
-                    {mode === 'unhealthy' && hasMultipleUnhealthy && (
-                        <div className="flex gap-2 animate-in slide-in-from-top-1">
-                            {Object.entries(unhealthyData).map(([key, scenario]) => (
-                                <button
-                                    key={key}
-                                    onClick={() => setUnhealthyScenario(key)}
-                                    className={`px-3 py-1 text-xs font-bold uppercase border-2 border-black transition-all ${unhealthyScenario === key
-                                        ? 'bg-black text-white shadow-[2px_2px_0px_0px_#FFDE00]'
-                                        : 'bg-white text-black hover:bg-gray-100'
-                                        }`}
-                                >
-                                    {scenario.label || key}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                <div className="flex p-1 bg-bg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <button
+                        onClick={() => setMode('healthy')}
+                        className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'healthy'
+                            ? 'bg-accent-green text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                            : 'text-text-muted hover:bg-white/50'
+                            }`}
+                    >
+                        Healthy
+                    </button>
+                    <button
+                        onClick={() => setMode('unhealthy')}
+                        className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'unhealthy'
+                            ? 'bg-accent-pink text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                            : 'text-text-muted hover:bg-white/50'
+                            }`}
+                    >
+                        Unhealthy
+                    </button>
                 </div>
             </div>
+
+            {/* Sub-scenario Selector - left aligned above graph */}
+            {mode === 'healthy' && hasMultipleHealthy && (
+                <div className="flex flex-wrap gap-2 mb-4 animate-in slide-in-from-top-1">
+                    {Object.entries(healthyData).map(([key, scenario]) => (
+                        <button
+                            key={key}
+                            onClick={() => setHealthyScenario(key)}
+                            className={`px-3 py-1 text-xs font-bold uppercase border-2 border-black transition-all ${healthyScenario === key
+                                ? 'bg-black text-white shadow-[2px_2px_0px_0px_#00FF00]'
+                                : 'bg-white text-black hover:bg-gray-100'
+                                }`}
+                        >
+                            {scenario.label || key}
+                        </button>
+                    ))}
+                </div>
+            )}
+            {mode === 'unhealthy' && hasMultipleUnhealthy && (
+                <div className="flex flex-wrap gap-2 mb-4 animate-in slide-in-from-top-1">
+                    {Object.entries(unhealthyData).map(([key, scenario]) => (
+                        <button
+                            key={key}
+                            onClick={() => setUnhealthyScenario(key)}
+                            className={`px-3 py-1 text-xs font-bold uppercase border-2 border-black transition-all ${unhealthyScenario === key
+                                ? 'bg-black text-white shadow-[2px_2px_0px_0px_#FFDE00]'
+                                : 'bg-white text-black hover:bg-gray-100'
+                                }`}
+                        >
+                            {scenario.label || key}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="h-[250px] w-full border-2 border-black bg-bg p-4 relative">
                 {/* Grid Pattern Background */}

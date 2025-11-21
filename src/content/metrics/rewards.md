@@ -9,37 +9,52 @@ whatToLookFor:
   - "Flatline means the agent isn't finding the solution."
   - 'In GRPO, rewards are often group-wise normalized.'
 visualizations:
-  yDomain: [-15, 550]
+  yDomain: [0, 550]
   healthy:
     data:
-      - { step: 0, value: -10 }
-      - { step: 20, value: -5 }
-      - { step: 40, value: 0 }
-      - { step: 60, value: 5 }
-      - { step: 80, value: 10 }
-      - { step: 100, value: 15 }
-    analysis: "Steady improvement. The agent is consistently finding actions that yield higher rewards."
+      - { step: 0, value: 5 }
+      - { step: 10, value: 25 }
+      - { step: 20, value: 55 }
+      - { step: 30, value: 85 }
+      - { step: 40, value: 115 }
+      - { step: 50, value: 140 }
+      - { step: 60, value: 160 }
+      - { step: 70, value: 175 }
+      - { step: 80, value: 185 }
+      - { step: 90, value: 190 }
+      - { step: 100, value: 195 }
+    analysis: "Steady improvement. Rewards climb gradually and plateau at a high value, indicating the model is learning to produce better outputs."
   unhealthy:
     stagnation:
       label: "Reward Stagnation"
       data:
-        - { step: 0, value: -10 }
-        - { step: 20, value: -10 }
-        - { step: 40, value: -9 }
-        - { step: 60, value: -10 }
-        - { step: 80, value: -10 }
-        - { step: 100, value: -10 }
-      analysis: "Stagnation. The rewards are flatlining, meaning the agent is failing to discover a better policy."
+        - { step: 0, value: 20 }
+        - { step: 10, value: 22 }
+        - { step: 20, value: 25 }
+        - { step: 30, value: 23 }
+        - { step: 40, value: 28 }
+        - { step: 50, value: 24 }
+        - { step: 60, value: 26 }
+        - { step: 70, value: 25 }
+        - { step: 80, value: 27 }
+        - { step: 90, value: 24 }
+        - { step: 100, value: 26 }
+      analysis: "Stagnation. Rewards stay flat at a low value, meaning the model is failing to discover a better policy."
     reward_hacking:
       label: "Reward Hacking"
       data:
-        - { step: 0, value: -10 }
-        - { step: 20, value: 5 }
-        - { step: 40, value: 50 }
-        - { step: 60, value: 150 }
-        - { step: 80, value: 300 }
-        - { step: 100, value: 500 }
-      analysis: "Reward explosion. The agent has found an exploit in the reward function, achieving unrealistically high scores without solving the actual task. Check your reward function for loopholes."
+        - { step: 0, value: 5 }
+        - { step: 10, value: 20 }
+        - { step: 20, value: 50 }
+        - { step: 30, value: 100 }
+        - { step: 40, value: 180 }
+        - { step: 50, value: 280 }
+        - { step: 60, value: 350 }
+        - { step: 70, value: 420 }
+        - { step: 80, value: 470 }
+        - { step: 90, value: 510 }
+        - { step: 100, value: 540 }
+      analysis: "Reward explosion. The model has found an exploit in the reward function, achieving unrealistically high scores without solving the actual task. Check your reward function for loopholes."
 variations:
   trl-grpo:
     description: 'Group-wise normalized rewards.'
