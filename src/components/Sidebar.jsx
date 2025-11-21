@@ -49,6 +49,25 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
     const filteredAlgorithms = filterItems(algorithms, searchQuery);
     const isSearching = searchQuery.trim().length > 0;
 
+    // Organize metrics into parents and children
+    const parentMetrics = metrics.filter(m => !m.parent);
+    const childMetricsByParent = metrics
+        .filter(m => m.parent)
+        .reduce((acc, m) => {
+            if (!acc[m.parent]) acc[m.parent] = [];
+            acc[m.parent].push(m);
+            return acc;
+        }, {});
+
+    // Sort children to put "Standard" first
+    Object.keys(childMetricsByParent).forEach(parentId => {
+        childMetricsByParent[parentId].sort((a, b) => {
+            if (a.id.endsWith('-standard')) return -1;
+            if (b.id.endsWith('-standard')) return 1;
+            return 0;
+        });
+    });
+
     const renderHeader = (isMobile) => (
         <div className="p-6 border-b-2 border-black">
             <Link to="/" className="flex items-center gap-3 group">
@@ -136,20 +155,45 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
 
                         {openSection === 'metrics' && (
                             <div className="animate-in slide-in-from-top-2 duration-200">
-                                {metrics.map(metric => {
+                                {parentMetrics.map(metric => {
                                     const isActive = location.pathname === `/metric/${metric.id}`;
+                                    const children = childMetricsByParent[metric.id] || [];
+                                    const hasActiveChild = children.some(c => location.pathname === `/metric/${c.id}`);
                                     return (
-                                        <Link
-                                            key={metric.id}
-                                            to={`/metric/${metric.id}`}
-                                            className={`px-4 py-3 font-bold border-2 transition-all duration-200 flex items-center gap-3 mb-2 ${isActive
-                                                ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(139,92,246,0)] translate-x-1'
-                                                : 'bg-transparent border-transparent text-text-muted hover:bg-accent-yellow hover:text-black hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                                                }`}
-                                        >
-                                            {isActive && <span className="text-accent-pink">●</span>}
-                                            {metric.name}
-                                        </Link>
+                                        <div key={metric.id}>
+                                            <Link
+                                                to={`/metric/${metric.id}`}
+                                                className={`px-4 py-3 font-bold border-2 transition-all duration-200 flex items-center gap-3 mb-1 ${isActive
+                                                    ? 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(139,92,246,0)] translate-x-1'
+                                                    : 'bg-transparent border-transparent text-text-muted hover:bg-accent-yellow hover:text-black hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                                                    }`}
+                                            >
+                                                {(isActive || hasActiveChild) && <span className="text-accent-pink">●</span>}
+                                                {metric.name}
+                                            </Link>
+                                            {children.length > 0 && (
+                                                <div className="ml-6 mb-2">
+                                                    {children.map(child => {
+                                                        const isChildActive = location.pathname === `/metric/${child.id}`;
+                                                        // Extract just the variant name (e.g., "SFT" from "Loss (SFT)")
+                                                        const variantName = child.name.match(/\(([^)]+)\)/)?.[1] || child.name;
+                                                        return (
+                                                            <Link
+                                                                key={child.id}
+                                                                to={`/metric/${child.id}`}
+                                                                className={`px-3 py-2 text-sm font-medium border-2 transition-all duration-200 flex items-center gap-2 mb-1 ${isChildActive
+                                                                    ? 'bg-black text-white border-black'
+                                                                    : 'bg-transparent border-transparent text-text-muted hover:bg-accent-yellow/50 hover:text-black hover:border-black'
+                                                                    }`}
+                                                            >
+                                                                {isChildActive && <span className="text-accent-pink">●</span>}
+                                                                {variantName}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
                                     );
                                 })}
                             </div>
