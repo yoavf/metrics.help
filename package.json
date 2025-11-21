@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "generate:og": "node scripts/generate-og-images.js",
-    "build": "npm run generate:og && vite build",
+    "generate:sitemap": "node scripts/generate-sitemap.js",
+    "build": "npm run generate:og && npm run generate:sitemap && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"

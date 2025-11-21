@@ -19,6 +19,23 @@ const AlgorithmDetail = ({ algorithms, metrics }) => {
                 title={`What is ${algo.fullName}? | metrics.help`}
                 description={algo.shortDescription}
                 image={`https://metrics.help/og/algorithm-${algo.id}.png`}
+                jsonLd={{
+                    '@context': 'https://schema.org',
+                    '@type': 'TechArticle',
+                    headline: `What is ${algo.fullName}?`,
+                    description: algo.shortDescription,
+                    image: `https://metrics.help/og/algorithm-${algo.id}.png`,
+                    url: `https://metrics.help/algorithm/${algo.id}`,
+                    publisher: {
+                        '@type': 'Organization',
+                        name: 'metrics.help',
+                        url: 'https://metrics.help'
+                    },
+                    mainEntityOfPage: {
+                        '@type': 'WebPage',
+                        '@id': `https://metrics.help/algorithm/${algo.id}`
+                    }
+                }}
             />
             <div className="animate-in fade-in max-w-5xl mx-auto pt-20 md:pt-8 pb-20 px-4 md:px-6">
                 <header className="mb-12 relative">

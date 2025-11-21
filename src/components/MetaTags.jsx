@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const MetaTags = ({ title, description, image, type = 'website' }) => {
+const MetaTags = ({ title, description, image, type = 'website', jsonLd }) => {
   const location = useLocation();
   const url = `https://metrics.help${location.pathname}`;
 
@@ -42,7 +42,29 @@ const MetaTags = ({ title, description, image, type = 'website' }) => {
 
       element.setAttribute('content', content);
     });
-  }, [title, description, image, type, url]);
+
+    // Update canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
+
+    // Update JSON-LD structured data
+    const existingScript = document.querySelector('script[data-metatags-jsonld]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+    if (jsonLd) {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-metatags-jsonld', 'true');
+      script.textContent = JSON.stringify(jsonLd);
+      document.head.appendChild(script);
+    }
+  }, [title, description, image, type, url, jsonLd]);
 
   return null;
 };
