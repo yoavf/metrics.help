@@ -1,19 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingDown, Target, Crosshair, Search } from 'lucide-react';
+import {
+    TrendingDown, Target, Crosshair, Search, Activity, Zap,
+    Gauge, BarChart3, Percent, GitBranch, Shuffle, Scale,
+    Trophy, CheckCircle, Hash, FileText, Sigma
+} from 'lucide-react';
 
 const icons = {
     loss: TrendingDown,
     accuracy: Target,
     precision: Crosshair,
     recall: Search,
+    f1: Scale,
+    perplexity: Shuffle,
+    entropy: Activity,
+    kl: GitBranch,
+    rewards: Trophy,
+    reward_accuracy: CheckCircle,
+    clip_ratio: Percent,
+    grad_norm: BarChart3,
+    learning_rate: Gauge,
+    token_accuracy: Hash,
+    completions: FileText,
+    mean_token_accuracy: Sigma,
 };
 
 const colors = {
     loss: 'bg-accent-yellow',
     accuracy: 'bg-accent-pink',
     precision: 'bg-accent-cyan',
-    recall: 'bg-accent-yellow', // Reusing yellow for balance
+    recall: 'bg-accent-yellow',
+    f1: 'bg-accent-pink',
+    perplexity: 'bg-accent-cyan',
+    entropy: 'bg-accent-yellow',
+    kl: 'bg-accent-pink',
+    rewards: 'bg-accent-yellow',
+    reward_accuracy: 'bg-accent-cyan',
+    clip_ratio: 'bg-accent-pink',
+    grad_norm: 'bg-accent-cyan',
+    learning_rate: 'bg-accent-yellow',
+    token_accuracy: 'bg-accent-pink',
+    completions: 'bg-accent-cyan',
+    mean_token_accuracy: 'bg-accent-yellow',
 };
 
 const MetricCard = ({ metric }) => {
