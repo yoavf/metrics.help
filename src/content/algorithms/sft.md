@@ -2,6 +2,7 @@
 id: sft
 name: SFT
 fullName: Supervised Fine-Tuning
+shortDescription: Train models to follow instructions with curated examples.
 relevantMetrics: [loss, accuracy, perplexity, learning_rate, epoch, train_flos]
 ---
 

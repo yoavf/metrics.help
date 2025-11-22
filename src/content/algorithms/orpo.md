@@ -2,6 +2,7 @@
 id: orpo
 name: ORPO
 fullName: Odds Ratio Preference Optimization
+shortDescription: Combines SFT and preference alignment in one stage.
 relevantMetrics: [loss, log_odds_ratio, accuracy, learning_rate, epoch]
 ---
 
