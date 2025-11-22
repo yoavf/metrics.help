@@ -203,16 +203,18 @@ const LogAnalyzer = () => {
                                         </div>
                                     </div>
 
-                                    <div className="mt-2 pt-2 border-t-2 border-dashed border-black/10">
-                                        <ul className="space-y-1">
-                                            {item.metric.whatToLookFor.slice(0, 2).map((tip, i) => (
-                                                <li key={i} className="text-xs flex items-start gap-2">
-                                                    <span className="text-accent-emerald font-bold">›</span>
-                                                    {tip}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                    {item.metric.whatToLookFor && (
+                                        <div className="mt-2 pt-2 border-t-2 border-dashed border-black/10">
+                                            <ul className="space-y-1">
+                                                {item.metric.whatToLookFor.slice(0, 2).map((tip, i) => (
+                                                    <li key={i} className="text-xs flex items-start gap-2">
+                                                        <span className="text-accent-emerald font-bold">›</span>
+                                                        {tip}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </Link>
                             ))}
                         </div>
