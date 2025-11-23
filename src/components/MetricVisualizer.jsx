@@ -24,6 +24,11 @@ const MetricVisualizer = ({ metric }) => {
     const [healthyScenario, setHealthyScenario] = useState(null);
     const [unhealthyScenario, setUnhealthyScenario] = useState(null);
 
+    // Early return if visualizations data is missing or malformed
+    if (!metric?.visualizations) {
+        return null;
+    }
+
     // Determine if data has multiple scenarios
     const healthyData = metric.visualizations.healthy;
     const unhealthyData = metric.visualizations.unhealthy;
@@ -44,22 +49,32 @@ const MetricVisualizer = ({ metric }) => {
         }
     }, [metric, hasMultipleHealthy, hasMultipleUnhealthy]);
 
-    // Get current display data
+    // Get current display data with defensive checks for stale scenario state
     let currentData, currentAnalysis;
 
     if (mode === 'healthy') {
-        if (hasMultipleHealthy && healthyScenario) {
+        if (hasMultipleHealthy && healthyScenario && healthyData[healthyScenario]) {
             currentData = healthyData[healthyScenario].data;
             currentAnalysis = healthyData[healthyScenario].analysis;
-        } else {
+        } else if (hasMultipleHealthy) {
+            // Fallback to first scenario if current scenario is stale
+            const firstKey = Object.keys(healthyData)[0];
+            currentData = healthyData[firstKey]?.data;
+            currentAnalysis = healthyData[firstKey]?.analysis;
+        } else if (healthyData) {
             currentData = healthyData.data;
             currentAnalysis = healthyData.analysis;
         }
     } else {
-        if (hasMultipleUnhealthy && unhealthyScenario) {
+        if (hasMultipleUnhealthy && unhealthyScenario && unhealthyData[unhealthyScenario]) {
             currentData = unhealthyData[unhealthyScenario].data;
             currentAnalysis = unhealthyData[unhealthyScenario].analysis;
-        } else {
+        } else if (hasMultipleUnhealthy) {
+            // Fallback to first scenario if current scenario is stale
+            const firstKey = Object.keys(unhealthyData)[0];
+            currentData = unhealthyData[firstKey]?.data;
+            currentAnalysis = unhealthyData[firstKey]?.analysis;
+        } else if (unhealthyData) {
             currentData = unhealthyData.data;
             currentAnalysis = unhealthyData.analysis;
         }
