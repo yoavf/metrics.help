@@ -4,7 +4,7 @@ import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X, Search } fr
 
 const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleCollapse }) => {
     const location = useLocation();
-    const [openSection, setOpenSection] = React.useState('algorithms');
+    const [openSection, setOpenSection] = React.useState('metrics');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState('');
     const searchInputRef = React.useRef(null);
