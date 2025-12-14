@@ -129,7 +129,7 @@ const MetricDetail = ({ metrics }) => {
                                     onClick={() => setActiveTab('guide')}
                                     className={`px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all ${activeTab === 'guide'
                                         ? 'bg-accent-yellow text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
-                                        : 'bg-transparent border-transparent text-text-muted hover:text-black hover:bg-black/5'
+                                        : 'bg-black/5 border-transparent text-text-muted hover:text-black hover:bg-black/10'
                                         }`}
                                 >
                                     What to look for
@@ -140,7 +140,7 @@ const MetricDetail = ({ metrics }) => {
                                     onClick={() => setActiveTab('visualizer')}
                                     className={`px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all ${activeTab === 'visualizer'
                                         ? 'bg-accent-cyan text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
-                                        : 'bg-transparent border-transparent text-text-muted hover:text-black hover:bg-black/5'
+                                        : 'bg-black/5 border-transparent text-text-muted hover:text-black hover:bg-black/10'
                                         }`}
                                 >
                                     Visualization
