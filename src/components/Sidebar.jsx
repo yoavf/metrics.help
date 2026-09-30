@@ -243,7 +243,7 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                     <button
                         onClick={onShowCredits}
                         className="p-3 border-2 border-black bg-white hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                        title="Credits"
+                        title="About"
                     >
                         <Info size={18} />
                     </button>
@@ -252,14 +252,14 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                 <>
                     <a href="https://github.com/yoavf/metrics.help" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-cyan hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
                         <Github size={18} />
-                        <span>Open Source</span>
+                        <span>Source code</span>
                     </a>
                     <button
                         onClick={onShowCredits}
                         className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                     >
                         <Info size={18} />
-                        <span>Credits</span>
+                        <span>About</span>
                     </button>
                 </>
             )}
