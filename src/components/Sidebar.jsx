@@ -87,7 +87,7 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                 <input
                     ref={searchInputRef}
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search metrics..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-9 pr-8 py-2 border-2 border-black bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:border-black placeholder:text-text-muted"
