@@ -40,10 +40,10 @@ const AlgorithmDetail = ({ algorithms, metrics }) => {
             />
             <div className="animate-in fade-in max-w-5xl mx-auto pt-20 md:pt-8 pb-20 px-4 md:px-6">
                 <header className="mb-12 relative">
-                    <div className="inline-block bg-black text-white px-4 py-1 font-black uppercase tracking-widest text-xs mb-4 shadow-[4px_4px_0px_0px_#FFDE00]">
+                    <div className="inline-block bg-black text-white px-4 py-1 font-bold uppercase tracking-widest text-xs mb-4 shadow-sm">
                         Algorithm Guide
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black mb-6 text-black tracking-tighter">
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-black tracking-tight">
                         {algo.fullName}
                     </h1>
                     <p className="text-xl md:text-2xl text-text-muted font-medium leading-relaxed max-w-3xl border-l-4 border-accent-cyan pl-4 md:pl-6">
@@ -52,8 +52,8 @@ const AlgorithmDetail = ({ algorithms, metrics }) => {
                 </header>
 
                 <div className="grid gap-8">
-                    <h2 className="text-3xl font-black mb-2 flex items-center gap-3">
-                        <span className="bg-accent-cyan border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <h2 className="text-3xl font-bold mb-2 flex items-center gap-3">
+                        <span className="bg-accent-cyan border border-black/10 p-1 shadow-sm">
                             <Sparkles className="w-5 h-5 text-black" />
                         </span>
                         Deep Dive
@@ -68,8 +68,8 @@ const AlgorithmDetail = ({ algorithms, metrics }) => {
                         <ReviewedNote date={algo.lastReviewed} />
                     </div>
 
-                    <h2 className="text-3xl font-black mb-2 flex items-center gap-3">
-                        <span className="bg-accent-pink border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <h2 className="text-3xl font-bold mb-2 flex items-center gap-3">
+                        <span className="bg-accent-pink border border-black/10 p-1 shadow-sm">
                             <Activity className="w-5 h-5 text-black" />
                         </span>
                         Key Metrics

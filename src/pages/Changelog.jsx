@@ -7,7 +7,7 @@ import changelog from '../content/changelog.md?raw';
 const components = {
     h2: ({ children }) => (
         <h2 className="relative mt-14 first:mt-0 mb-5 text-sm font-semibold tracking-wide text-black">
-            <span className="absolute -left-[33px] top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-bg border border-black/60" />
+            <span className="absolute -left-[38.5px] top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-bg border border-black/60" />
             {children}
         </h2>
     ),

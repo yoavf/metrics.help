@@ -106,7 +106,7 @@ const LogAnalyzer = () => {
                 {/* Input Section */}
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                        <label className="font-black uppercase flex items-center gap-2 text-sm">
+                        <label className="font-bold uppercase flex items-center gap-2 text-sm">
                             <Terminal className="w-4 h-4" />
                             Paste Training Log
                         </label>
@@ -120,7 +120,7 @@ const LogAnalyzer = () => {
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             placeholder={placeholders[placeholderIndex]}
-                            className="relative w-full h-80 bg-black text-accent-cyan font-mono p-6 rounded-none border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] focus:outline-none focus:shadow-[8px_8px_0px_0px_#FF0080] transition-all resize-none text-sm leading-relaxed placeholder:text-slate-500"
+                            className="relative w-full h-80 bg-black text-accent-cyan font-mono p-6 rounded-none border border-black/10 shadow-sm focus:outline-none focus:shadow-sm transition-all resize-none text-sm leading-relaxed placeholder:text-slate-500"
                             spellCheck="false"
                         />
                     </div>
@@ -145,7 +145,7 @@ const LogAnalyzer = () => {
 
                 {/* Results Section */}
                 <div className="flex flex-col gap-4">
-                    <label className="font-black uppercase flex items-center gap-2 text-sm">
+                    <label className="font-bold uppercase flex items-center gap-2 text-sm">
                         <Search className="w-4 h-4" />
                         Analysis
                     </label>
@@ -156,7 +156,7 @@ const LogAnalyzer = () => {
                                 <Link
                                     key={index}
                                     to={`/metric/${item.metric.id}`}
-                                    className="neo-card p-4 animate-in slide-in-from-bottom-4 duration-500 hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all group cursor-pointer"
+                                    className="neo-card p-4 animate-in slide-in-from-bottom-4 duration-500 hover:-translate-y-1 hover:shadow-sm transition-all group cursor-pointer"
                                 >
                                     <div className="flex items-start justify-between mb-2">
                                         <div className="flex-1">
@@ -165,7 +165,7 @@ const LogAnalyzer = () => {
                                                     {item.key}
                                                 </span>
                                                 <ArrowRight className="w-3 h-3 text-text-muted" />
-                                                <h3 className="text-lg font-black uppercase group-hover:underline decoration-2 underline-offset-2">
+                                                <h3 className="text-lg font-bold uppercase group-hover:underline decoration-2 underline-offset-2">
                                                     {item.metric.name}
                                                     {(() => {
                                                         // Extract prefix from key (eval_, train_, val_, validation_)
@@ -195,7 +195,7 @@ const LogAnalyzer = () => {
                                             </div>
                                             <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-black/60 group-hover:text-black transition-colors">
                                                 <span>View Details</span>
-                                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                                                <span className=" transition-transform">→</span>
                                             </div>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@ const LogAnalyzer = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="h-80 border-2 border-dashed border-black/20 flex flex-col items-center justify-center text-text-muted p-8 text-center bg-white/50">
+                        <div className="h-80 border border-dashed border-black/20 flex flex-col items-center justify-center text-text-muted p-8 text-center bg-white/50">
                             {input.trim() ? (
                                 <>
                                     <AlertCircle className="w-10 h-10 mb-4 opacity-50" />
