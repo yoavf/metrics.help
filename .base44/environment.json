@@ -1,0 +1,17 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "VITE_PUBLIC_POSTHOG_KEY",
+      "description": "Optional analytics: PostHog project API key from Project Settings.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "VITE_PUBLIC_POSTHOG_HOST",
+      "description": "Optional analytics: PostHog API host for your project's region from Project Settings.",
+      "requiredAtBoot": false
+    }
+  ]
+}
