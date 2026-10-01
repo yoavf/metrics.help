@@ -18,8 +18,8 @@
   --color-accent-green: #00FF9C;
   --color-accent-black: #000000;
 
-  --shadow-neo: 4px 4px 0px 0px #000000;
-  --shadow-neo-sm: 2px 2px 0px 0px #000000;
+  --shadow-neo: 0 1px 2px rgba(15,23,42,0.04), 0 4px 16px rgba(15,23,42,0.05);
+  --shadow-neo-sm: 0 1px 2px rgba(15,23,42,0.06);
 
   --animate-bounce-slight: bounceSlight 2s infinite;
 
@@ -43,7 +43,7 @@
 
   body {
     @apply bg-bg text-text-main antialiased selection:bg-accent-yellow selection:text-black overflow-x-hidden;
-    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
@@ -53,21 +53,21 @@
   h4,
   h5,
   h6 {
-    @apply font-black uppercase tracking-tight;
+    @apply font-bold tracking-tight;
   }
 }
 
 @layer utilities {
   .neo-card {
-    @apply bg-surface border-2 border-accent-black shadow-neo;
+    @apply bg-surface border border-black/10 rounded-xl shadow-neo;
   }
 
   .neo-btn {
-    @apply bg-surface border-2 border-accent-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] active:shadow-neo-sm transition-all duration-100;
+    @apply bg-surface border border-black/15 rounded-lg shadow-neo-sm active:translate-y-px transition-all duration-100;
   }
 
   .neo-input {
-    @apply bg-surface border-2 border-accent-black p-2 focus:outline-none focus:shadow-neo transition-shadow;
+    @apply bg-surface border border-black/15 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-accent-yellow/60 transition-shadow;
   }
 }
 

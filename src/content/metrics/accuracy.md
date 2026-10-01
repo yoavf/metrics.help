@@ -1,12 +1,12 @@
 ---
 id: accuracy
 name: Accuracy
-aliases: [accuracy, acc, eval_accuracy, train_accuracy, val_accuracy, eval_mean_token_accuracy]
+aliases: [accuracy, acc, eval_accuracy, train_accuracy, val_accuracy]
 shortDescription: Percentage of correct predictions.
 whatToLookFor:
-  - Should increase over time.
-  - 'If it stays at 50% (for binary classification), the model is guessing.'
-  - High training accuracy but low validation accuracy means overfitting.
+  - 'Should generally rise during training, but compare with a simple baseline (e.g. always predicting the most common class) rather than a fixed number.'
+  - 'Near 50% on a balanced binary task means the model is no better than guessing. On imbalanced data a high accuracy can still hide a weak model, so check F1 too.'
+  - 'Training accuracy that keeps climbing while validation accuracy stalls or drops is a classic sign of overfitting.'
 visualizations:
   yDomain: [0, 1]
   healthy:
@@ -54,5 +54,13 @@ visualizations:
         - { step: 90, value: 0.58 }
         - { step: 100, value: 0.71 }
       analysis: "Instability. Accuracy improves initially but then fluctuates wildly. This often indicates overfitting, a learning rate that's too high, or noisy gradients. Consider lowering the learning rate or adding regularization."
+lastReviewed: '2026-10-01'
 ---
 The fraction of predictions our model got right. Useful for balanced datasets.
+
+## How this is calculated
+
+- **Formula:** correct predictions / total predictions.
+- **Aggregation:** over all examples in the evaluation set (or logging window).
+- **Units:** fraction 0–1 (sometimes shown as %).
+- **Source:** your `compute_metrics` function (Transformers `Trainer`), logged as `eval_accuracy`.

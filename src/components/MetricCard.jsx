@@ -51,15 +51,15 @@ const MetricCard = ({ metric }) => {
     return (
         <Link
             to={`/metric/${metric.id}`}
-            className="neo-card block p-6 group hover:-translate-y-1 hover:translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200"
+            className="neo-card block p-6 group hover:-translate-y-1 hover:translate-x-1 hover:shadow-sm transition-all duration-200"
         >
             <div className="flex items-start justify-between mb-4">
-                <div className={`p-3 border-2 border-black ${colorClass} shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]`}>
+                <div className={`p-3 border border-black/10 ${colorClass} shadow-sm`}>
                     <Icon className="w-6 h-6 text-black" strokeWidth={2.5} />
                 </div>
             </div>
 
-            <h3 className="text-xl font-black uppercase mb-2 text-black group-hover:underline decoration-2 underline-offset-4">
+            <h3 className="text-xl font-bold uppercase mb-2 text-black group-hover:underline decoration-2 underline-offset-4">
                 {metric.name}
             </h3>
 
@@ -69,7 +69,7 @@ const MetricCard = ({ metric }) => {
 
             <div className="mt-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
                 <span>Learn more</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                <span className=" transition-transform">→</span>
             </div>
         </Link>
     );

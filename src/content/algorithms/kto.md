@@ -4,6 +4,7 @@ name: KTO
 fullName: Kahneman-Tversky Optimization
 shortDescription: Alignment using binary feedback (good/bad) instead of pairs.
 relevantMetrics: [loss, rewards, kl, accuracy, learning_rate]
+lastReviewed: '2026-10-01'
 ---
 
 ## What is KTO?

@@ -4,9 +4,9 @@ name: Learning Rate
 aliases: [learning_rate, lr]
 shortDescription: Step size of training.
 whatToLookFor:
-  - 'Usually follows a schedule (warmup then decay).'
-  - "If it's constant, ensure it's not too high (instability) or too low (slow convergence)."
-  - Should match your scheduler configuration.
+  - 'Usually follows a schedule, such as warmup then decay; check it matches what you configured.'
+  - 'Many instabilities (loss spikes, exploding grad norm) line up with the peak of warmup — compare curves.'
+  - 'There is no universally right value; it depends on the model size, optimizer and method (full fine-tune vs. LoRA).'
 visualizations:
   yDomain: [0, 0.00012]
   healthy:
@@ -55,5 +55,13 @@ visualizations:
       - { step: 90, value: 0.00011 }
       - { step: 100, value: 0.0001 }
     analysis: "Constant rate with no decay. The model may oscillate around the optimum and fail to converge to a good solution."
+lastReviewed: '2026-10-01'
 ---
 Controls how much to change the model in response to the estimated error each time the model weights are updated.
+
+## How this is calculated
+
+- **Formula:** the value set by the scheduler at this step.
+- **Aggregation:** current value at the logging step.
+- **Units:** unitless step size.
+- **Source:** Transformers `Trainer` logs `learning_rate`.

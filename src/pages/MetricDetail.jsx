@@ -4,6 +4,7 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { Sparkles, Box } from 'lucide-react';
 import MetricVisualizer from '../components/MetricVisualizer';
 import MetaTags from '../components/MetaTags';
+import ReviewedNote from '../components/ReviewedNote';
 
 const MetricDetail = ({ metrics }) => {
     const { id } = useParams();
@@ -61,7 +62,7 @@ const MetricDetail = ({ metrics }) => {
             <div className="animate-in fade-in max-w-5xl mx-auto pt-20 md:pt-8 pb-20 px-4 md:px-6">
                 <header className="mb-12 relative">
                     <div className="flex flex-wrap items-center gap-4 mb-6">
-                        <div className="inline-block bg-black text-white px-4 py-1 font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_#FFDE00]">
+                        <div className="inline-block bg-black text-white px-4 py-1 font-bold uppercase tracking-widest text-xs shadow-sm">
                             Metric Definition
                         </div>
 
@@ -76,7 +77,7 @@ const MetricDetail = ({ metrics }) => {
                         )}
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-black mb-6 text-black tracking-tighter">
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-black tracking-tight">
                         {metric.name}
                     </h1>
                     <p className="text-xl md:text-2xl text-text-muted font-medium leading-relaxed max-w-3xl border-l-4 border-accent-pink pl-4 md:pl-6">
@@ -89,8 +90,8 @@ const MetricDetail = ({ metrics }) => {
                         <div className="absolute top-0 right-0 p-4 opacity-10">
                             <Box size={120} strokeWidth={1} />
                         </div>
-                        <h2 className="text-3xl font-black mb-6 flex items-center gap-3">
-                            <span className="bg-accent-cyan border-2 border-black p-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                            <span className="bg-accent-cyan border border-black/10 p-1 shadow-sm">
                                 <Sparkles className="w-5 h-5 text-black" />
                             </span>
                             What is it?
@@ -98,11 +99,12 @@ const MetricDetail = ({ metrics }) => {
                         <div className="relative z-10 prose prose-invert max-w-none">
                             <ReactMarkdown>{metric.description}</ReactMarkdown>
                         </div>
+                        <ReviewedNote date={metric.lastReviewed} />
 
                         {/* Show child variants if this is a parent with children */}
                         {childMetrics.length > 0 && (
-                            <div className="mt-8 pt-6 border-t-2 border-black/10">
-                                <h3 className="text-lg font-black uppercase mb-4">Algorithm-Specific Variants</h3>
+                            <div className="mt-8 pt-6 border-t border-black/10/10">
+                                <h3 className="text-lg font-bold uppercase mb-4">Algorithm-Specific Variants</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {childMetrics.map(child => {
                                         const variantName = child.name.match(/\(([^)]+)\)/)?.[1] || child.name;
@@ -110,7 +112,7 @@ const MetricDetail = ({ metrics }) => {
                                             <Link
                                                 key={child.id}
                                                 to={`/metric/${child.id}`}
-                                                className="px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                                className="px-4 py-2 bg-white border border-black/10 font-bold text-sm hover:bg-accent-yellow hover:shadow-sm transition-all"
                                             >
                                                 {variantName}
                                             </Link>
@@ -123,12 +125,12 @@ const MetricDetail = ({ metrics }) => {
 
                     {/* Tabs Navigation - only show if metric has content */}
                     {(metric.whatToLookFor || visualizations) && (
-                        <div className="flex gap-4 border-b-2 border-black/10 pb-1">
+                        <div className="flex gap-4 border-b border-black/10/10 pb-1">
                             {metric.whatToLookFor && (
                                 <button
                                     onClick={() => setActiveTab('guide')}
-                                    className={`px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all ${activeTab === 'guide'
-                                        ? 'bg-accent-yellow text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                                    className={`px-6 py-3 font-bold uppercase tracking-wider text-sm border transition-all ${activeTab === 'guide'
+                                        ? 'bg-accent-yellow text-black border-black shadow-sm -translate-y-1'
                                         : 'bg-black/5 border-transparent text-text-muted hover:text-black hover:bg-black/10'
                                         }`}
                                 >
@@ -138,8 +140,8 @@ const MetricDetail = ({ metrics }) => {
                             {visualizations && (
                                 <button
                                     onClick={() => setActiveTab('visualizer')}
-                                    className={`px-6 py-3 font-black uppercase tracking-wider text-sm border-2 transition-all ${activeTab === 'visualizer'
-                                        ? 'bg-accent-cyan text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                                    className={`px-6 py-3 font-bold uppercase tracking-wider text-sm border transition-all ${activeTab === 'visualizer'
+                                        ? 'bg-accent-cyan text-black border-black shadow-sm -translate-y-1'
                                         : 'bg-black/5 border-transparent text-text-muted hover:text-black hover:bg-black/10'
                                         }`}
                                 >
@@ -154,11 +156,14 @@ const MetricDetail = ({ metrics }) => {
                         <div className="min-h-[400px]">
                             {activeTab === 'guide' && metric.whatToLookFor ? (
                                 <div className="neo-card p-8 bg-white text-black animate-in fade-in slide-in-from-bottom-4 duration-300">
-                                    <h2 className="text-3xl font-black mb-8 text-accent-yellow" style={{ WebkitTextStroke: '1px black' }}>Key Signals</h2>
+                                    <h2 className="flex items-center gap-3 text-2xl font-bold mb-8 text-black">
+                                        <span className="w-1.5 h-6 rounded-full bg-accent-yellow" />
+                                        Key Signals
+                                    </h2>
                                     <ul className="space-y-4">
                                         {metric.whatToLookFor.map((item, index) => (
                                             <li key={index} className="flex items-start gap-4 group">
-                                                <span className="flex-shrink-0 w-8 h-8 bg-white text-black border-2 border-white font-black flex items-center justify-center shadow-[4px_4px_0px_0px_#FF0080]">
+                                                <span className="flex-shrink-0 w-8 h-8 bg-white text-black border border-white font-bold flex items-center justify-center shadow-sm">
                                                     {index + 1}
                                                 </span>
                                                 <span className="text-lg font-medium pt-1">{item}</span>

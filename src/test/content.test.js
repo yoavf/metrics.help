@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getMetrics, getAlgorithms } from '../utils/content';
+import { getMetrics, getAlgorithms, findMetricForKey } from '../utils/content';
 
 describe('Content Validation', () => {
   const metrics = getMetrics();
@@ -99,6 +99,42 @@ describe('Content Validation', () => {
       const ids = algorithms.map(a => a.id);
       const uniqueIds = new Set(ids);
       expect(ids.length).toBe(uniqueIds.size);
+    });
+
+    it('relevantMetrics should only reference existing metrics', () => {
+      const metricIds = new Set(metrics.map(m => m.id));
+      algorithms.forEach(algo => {
+        (algo.relevantMetrics || []).forEach(id => {
+          expect(metricIds.has(id), `Algorithm ${algo.id} references missing metric ${id}`).toBe(true);
+        });
+      });
+    });
+  });
+
+  describe('Log key matching', () => {
+    it('maps common TRL and Trainer log keys to metrics', () => {
+      const cases = {
+        'train/loss': 'loss',
+        'eval_rewards/margins': 'reward_margins',
+        'rewards/format_reward/mean': 'rewards',
+        'rewards/format_reward/std': 'reward_std',
+        'completions/clipped_ratio': 'clipped_ratio',
+        'clip_ratio/region_mean': 'clip_ratio',
+        'objective/kl': 'kl',
+        'mean_token_accuracy': 'mean_token_accuracy',
+        'loss/value_avg': 'value_loss',
+      };
+      Object.entries(cases).forEach(([key, id]) => {
+        expect(findMetricForKey(metrics, key)?.id, key).toBe(id);
+      });
+    });
+
+    it('aliases should not be claimed by two metrics', () => {
+      const seen = {};
+      metrics.forEach(m => (m.aliases || []).forEach(a => {
+        expect(seen[a], `Alias ${a} used by ${seen[a]} and ${m.id}`).toBeUndefined();
+        seen[a] = m.id;
+      }));
     });
   });
 });

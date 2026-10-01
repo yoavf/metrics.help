@@ -4,12 +4,10 @@ name: Loss (Standard)
 parent: loss
 shortDescription: Cross-entropy loss for pre-training and fine-tuning.
 whatToLookFor:
-  - Should decrease over time.
-  - If it goes up, your learning rate might be too high.
-  - If it flattens out too early, you might be stuck in a local minimum.
-  - Validation loss diverging from training loss indicates overfitting.
-  - 'Stuck at 0.693 for binary classification? Model is predicting randomly (log(2)).'
-  - 'Stuck at 1.098 for 3-class classification? Model is predicting uniformly (log(3)).'
+  - 'Should generally decrease, quickly at first and then more slowly.'
+  - 'A sudden rise or spikes often point to a learning rate that is too high or a bad batch.'
+  - 'A widening gap where eval loss rises while training loss falls indicates overfitting.'
+  - 'For classification, a loss stuck at ln(number of classes) (0.693 for 2, 1.099 for 3) means uniform guessing.'
 visualizations:
   yDomain: [0, 5]
   healthy:
@@ -52,5 +50,13 @@ visualizations:
         - { step: 80, train: 0.15, val: 2.5 }
         - { step: 100, train: 0.05, val: 3.2 }
       analysis: "Classic overfitting. Training loss keeps dropping while validation loss increases - the model is memorizing the training data rather than learning generalizable patterns."
+lastReviewed: '2026-10-01'
 ---
 Cross-entropy loss for token prediction. Used in pre-training, supervised fine-tuning (SFT), and standard language modeling. Always positive, typically starts around 0.5-5.0 depending on initialization.
+
+## How this is calculated
+
+- **Formula:** mean cross-entropy, −log p(correct token or class).
+- **Aggregation:** averaged over non-masked tokens (or examples) in the logging window.
+- **Units:** nats.
+- **Source:** Transformers `Trainer` logs `loss` and `eval_loss`.

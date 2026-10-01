@@ -5,7 +5,7 @@ import { Info } from 'lucide-react';
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-surface border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="bg-surface border border-black/10 p-3 shadow-sm">
                 <p className="font-bold uppercase mb-1">{`Step ${label}`}</p>
                 {payload.map((entry, index) => (
                     <p key={index} className="font-mono" style={{ color: entry.color }}>
@@ -87,7 +87,7 @@ const MetricVisualizer = ({ metric }) => {
         <div className="neo-card p-6 md:p-8 bg-surface">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>
-                    <h3 className="text-2xl font-black uppercase">
+                    <h3 className="text-2xl font-bold uppercase">
                         Live Visualization
                     </h3>
                     <p className="text-text-muted font-medium mt-1">
@@ -95,11 +95,11 @@ const MetricVisualizer = ({ metric }) => {
                     </p>
                 </div>
 
-                <div className="flex p-1 bg-bg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <div className="flex p-1 bg-bg border border-black/10 shadow-sm">
                     <button
                         onClick={() => setMode('healthy')}
                         className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'healthy'
-                            ? 'bg-accent-green text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                            ? 'bg-accent-green text-black border border-black/10 shadow-sm -translate-y-1'
                             : 'text-text-muted hover:bg-white/50'
                             }`}
                     >
@@ -108,7 +108,7 @@ const MetricVisualizer = ({ metric }) => {
                     <button
                         onClick={() => setMode('unhealthy')}
                         className={`px-6 py-2 font-bold uppercase text-sm transition-all ${mode === 'unhealthy'
-                            ? 'bg-accent-pink text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                            ? 'bg-accent-pink text-white border border-black/10 shadow-sm -translate-y-1'
                             : 'text-text-muted hover:bg-white/50'
                             }`}
                     >
@@ -124,8 +124,8 @@ const MetricVisualizer = ({ metric }) => {
                         <button
                             key={key}
                             onClick={() => setHealthyScenario(key)}
-                            className={`px-3 py-1 text-xs font-bold uppercase border-2 border-black transition-all ${healthyScenario === key
-                                ? 'bg-black text-white shadow-[2px_2px_0px_0px_#00FF00]'
+                            className={`px-3 py-1 text-xs font-bold uppercase border border-black/10 transition-all ${healthyScenario === key
+                                ? 'bg-black text-white shadow-sm'
                                 : 'bg-white text-black hover:bg-gray-100'
                                 }`}
                         >
@@ -140,8 +140,8 @@ const MetricVisualizer = ({ metric }) => {
                         <button
                             key={key}
                             onClick={() => setUnhealthyScenario(key)}
-                            className={`px-3 py-1 text-xs font-bold uppercase border-2 border-black transition-all ${unhealthyScenario === key
-                                ? 'bg-black text-white shadow-[2px_2px_0px_0px_#FFDE00]'
+                            className={`px-3 py-1 text-xs font-bold uppercase border border-black/10 transition-all ${unhealthyScenario === key
+                                ? 'bg-black text-white shadow-sm'
                                 : 'bg-white text-black hover:bg-gray-100'
                                 }`}
                         >
@@ -151,7 +151,7 @@ const MetricVisualizer = ({ metric }) => {
                 </div>
             )}
 
-            <div className="h-[250px] w-full border-2 border-black bg-bg p-4 relative">
+            <div className="h-[250px] w-full border border-black/10 bg-bg p-4 relative">
                 {/* Grid Pattern Background */}
                 <div className="absolute inset-0 opacity-20 pointer-events-none"
                     style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
@@ -239,10 +239,10 @@ const MetricVisualizer = ({ metric }) => {
                 </ResponsiveContainer>
             </div>
 
-            <div className="mt-6 flex items-start gap-4 p-4 bg-accent-yellow/20 border-2 border-black border-dashed">
+            <div className="mt-6 flex items-start gap-4 p-4 bg-accent-yellow/20 border border-black/10 border-dashed">
                 <Info className="w-6 h-6 text-black flex-shrink-0 mt-0.5" />
                 <div>
-                    <h4 className="font-black uppercase text-sm mb-1">Analysis</h4>
+                    <h4 className="font-bold uppercase text-sm mb-1">Analysis</h4>
                     <p className="text-sm font-medium leading-relaxed">
                         {currentAnalysis}
                     </p>
