@@ -1,12 +1,12 @@
 ---
 id: log_odds_ratio
 name: Log Odds Ratio
-aliases: [log_odds_ratio, log_odds_chosen, log_odds_rejected]
+aliases: [log_odds_chosen]
 shortDescription: ORPO preference strength.
 whatToLookFor:
-  - Should increase over time.
-  - Indicates the model is distinguishing better between chosen and rejected responses.
-  - "If it decreases or stays near zero, the model isn't learning the preference."
+  - 'This chart shows `log_odds_chosen`: log odds(chosen) minus log odds(rejected). It should rise above 0 and keep growing as the model learns the preference.'
+  - 'TRL also logs `log_odds_ratio`, which is a different quantity: log σ(log odds). It is always 0 or below and moves toward 0 as learning improves. Do not compare it directly with this chart.'
+  - 'If log_odds_chosen stays near zero or goes negative, check the pair quality and the λ (beta) weight on the odds-ratio term.'
 visualizations:
   yDomain: [-0.5, 2.5]
   healthy:
@@ -28,4 +28,10 @@ visualizations:
       - { step: 100, value: -0.2 }
     analysis: "No preference learning. The model fails to distinguish between chosen and rejected responses, or even prefers the rejected one (negative value)."
 ---
-Specific to ORPO. Measures the log ratio of the likelihood of the chosen response vs the rejected response.
+Specific to ORPO. It compares the **odds** of the model producing the chosen response with the odds of it producing the rejected one. Odds = p / (1 − p), where p is the response's average per-token probability.
+
+## How this is calculated
+
+- **log_odds_chosen:** log(odds(chosen)) − log(odds(rejected)), averaged over the batch. Above 0 means the chosen response is favored.
+- **log_odds_ratio (TRL):** log σ(log_odds_chosen). This is the term that, multiplied by λ, forms the preference part of the ORPO loss.
+- **Source:** TRL `ORPOTrainer`.

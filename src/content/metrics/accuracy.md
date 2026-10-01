@@ -1,7 +1,7 @@
 ---
 id: accuracy
 name: Accuracy
-aliases: [accuracy, acc, eval_accuracy, train_accuracy, val_accuracy, eval_mean_token_accuracy]
+aliases: [accuracy, acc, eval_accuracy, train_accuracy, val_accuracy]
 shortDescription: Percentage of correct predictions.
 whatToLookFor:
   - Should increase over time.
