@@ -17,3 +17,8 @@
 
 ### Changed
 - Renamed the two clip metrics to **Clip Ratio (Policy Updates)** and **Truncated Completions** so they're harder to confuse.
+
+## 2025-11-20
+
+### Launch
+- metrics.help goes live: plain-language guides to ML training metrics and alignment algorithms (SFT, DPO, KTO, ORPO, PPO, GRPO), plus an in-browser training log analyzer.
