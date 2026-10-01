@@ -156,7 +156,10 @@ const MetricDetail = ({ metrics }) => {
                         <div className="min-h-[400px]">
                             {activeTab === 'guide' && metric.whatToLookFor ? (
                                 <div className="neo-card p-8 bg-white text-black animate-in fade-in slide-in-from-bottom-4 duration-300">
-                                    <h2 className="text-3xl font-bold mb-8 text-accent-yellow" style={{ WebkitTextStroke: '1px black' }}>Key Signals</h2>
+                                    <h2 className="flex items-center gap-3 text-2xl font-bold mb-8 text-black">
+                                        <span className="w-1.5 h-6 rounded-full bg-accent-yellow" />
+                                        Key Signals
+                                    </h2>
                                     <ul className="space-y-4">
                                         {metric.whatToLookFor.map((item, index) => (
                                             <li key={index} className="flex items-start gap-4 group">
