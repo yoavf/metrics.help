@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X, Search, History } from 'lucide-react';
+import { Activity, ChevronLeft, ChevronRight, Menu, X, Search } from 'lucide-react';
 
-const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleCollapse }) => {
+const Sidebar = ({ metrics, algorithms, isCollapsed, onToggleCollapse }) => {
     const location = useLocation();
     const [openSection, setOpenSection] = React.useState('metrics');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -236,47 +236,6 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
         </nav>
     );
 
-    const renderFooter = (isMobile) => (
-        <div className={`p-4 border-t-2 border-black bg-bg flex flex-col gap-2 ${isCollapsed && !isMobile ? 'items-center' : ''}`}>
-            {isCollapsed && !isMobile ? (
-                <>
-                    <button
-                        onClick={onShowCredits}
-                        className="p-3 border-2 border-black bg-white hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                        title="Credits"
-                    >
-                        <Info size={18} />
-                    </button>
-                    <Link
-                        to="/changelog"
-                        className="p-3 border-2 border-black bg-white hover:bg-accent-pink hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                        title="Changelog"
-                    >
-                        <History size={18} />
-                    </Link>
-                </>
-            ) : (
-                <>
-                    <a href="https://github.com/yoavf/metrics.help" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-cyan hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-                        <Github size={18} />
-                        <span>Open Source</span>
-                    </a>
-                    <button
-                        onClick={onShowCredits}
-                        className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-yellow hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                    >
-                        <Info size={18} />
-                        <span>Credits</span>
-                    </button>
-                    <Link to="/changelog" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-pink hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-                        <History size={18} />
-                        <span>Changelog</span>
-                    </Link>
-                </>
-            )}
-        </div>
-    );
-
     return (
         <>
             {/* Mobile Menu Button */}
@@ -307,7 +266,6 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                 </button>
                 {renderHeader(true)}
                 {renderNav()}
-                {renderFooter(true)}
             </aside>
 
             {/* Desktop Sidebar */}
@@ -323,7 +281,6 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
 
                 {renderHeader(false)}
                 {!isCollapsed && renderNav()}
-                {renderFooter(false)}
             </aside>
         </>
     );
