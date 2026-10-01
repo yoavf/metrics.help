@@ -4,6 +4,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { Activity, Sparkles, Box } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import MetaTags from '../components/MetaTags';
+import ReviewedNote from '../components/ReviewedNote';
 
 const AlgorithmDetail = ({ algorithms, metrics }) => {
     const { id } = useParams();
@@ -64,6 +65,7 @@ const AlgorithmDetail = ({ algorithms, metrics }) => {
                         <div className="relative z-10 prose prose-invert max-w-none">
                             <ReactMarkdown>{algo.description}</ReactMarkdown>
                         </div>
+                        <ReviewedNote date={algo.lastReviewed} />
                     </div>
 
                     <h2 className="text-3xl font-black mb-2 flex items-center gap-3">

@@ -4,10 +4,10 @@ name: Rewards (Standard)
 parent: rewards
 shortDescription: Standard reward signal for RL training.
 whatToLookFor:
-  - Should trend upward over many steps, but expect noise and plateaus.
-  - High variance is normal in early stages.
-  - "Flatline means the model isn't finding a better policy."
-  - Sudden explosion may indicate reward hacking.
+  - 'Should trend upward over many steps, but expect noise and plateaus.'
+  - 'Early variance is normal; judge trends with smoothing.'
+  - 'A sudden jump to unusually high values can mean the model is exploiting the reward model — read samples and check KL.'
+  - 'A long flat line means the policy is not finding better outputs; check learning rate and reward signal.'
 visualizations:
   yDomain: [0, 550]
   healthy:
@@ -55,5 +55,12 @@ visualizations:
         - { step: 90, value: 510 }
         - { step: 100, value: 540 }
       analysis: "Reward explosion. The model has found an exploit in the reward function, achieving unrealistically high scores without solving the actual task. Check your reward function for loopholes."
+lastReviewed: '2026-10-01'
 ---
 Standard reward signal used in PPO and other RL algorithms. The reward function scores model outputs, and the goal is to maximize this score over training.
+
+## How this is calculated
+
+- **Formula:** reward model (or reward function) score per completion, sometimes minus a KL penalty.
+- **Aggregation:** mean over completions in the batch.
+- **Source:** TRL `PPOTrainer`/`RLOOTrainer` log `objective/scores` (raw) and `objective/rlhf_reward` (with KL penalty).

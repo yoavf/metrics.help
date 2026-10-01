@@ -7,6 +7,7 @@ whatToLookFor:
   - 'In SFT it usually rises alongside falling loss. It levels off well below 100% because many next tokens have more than one valid choice.'
   - 'A large gap where train accuracy keeps rising but eval accuracy stalls or falls suggests overfitting.'
   - 'It only shows the single top guess, so loss and perplexity are better at catching gradual changes in confidence.'
+lastReviewed: '2026-10-01'
 ---
 For every position the model is trained on, did its single most likely next token match the real one? Token accuracy is the fraction of positions where it did.
 

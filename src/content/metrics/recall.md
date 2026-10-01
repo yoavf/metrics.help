@@ -4,8 +4,9 @@ name: Recall
 aliases: [recall, rec, eval_recall, train_recall, val_recall]
 shortDescription: Quantity of positives found.
 whatToLookFor:
-  - 'Important when false negatives are costly (e.g., cancer detection).'
-  - Often trades off with Precision.
+  - 'Important when false negatives are costly (e.g. missing a disease in screening).'
+  - 'Often trades off with precision as you change the decision threshold.'
+  - 'Check which averaging is used for multi-class tasks.'
 visualizations:
   yDomain: [0, 1]
   healthy:
@@ -36,5 +37,13 @@ visualizations:
       - { step: 90, value: 0.36 }
       - { step: 100, value: 0.35 }
     analysis: "Low recall. The model is missing a significant number of positive examples."
+lastReviewed: '2026-10-01'
 ---
 Out of all the actual positive examples, how many did the model identify?
+
+## How this is calculated
+
+- **Formula:** true positives / (true positives + false negatives).
+- **Aggregation:** over the evaluation set, per class then averaged for multi-class.
+- **Units:** fraction 0–1.
+- **Source:** your `compute_metrics` function.

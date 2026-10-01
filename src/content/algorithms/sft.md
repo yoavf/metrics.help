@@ -4,6 +4,7 @@ name: SFT
 fullName: Supervised Fine-Tuning
 shortDescription: Train models to follow instructions with curated examples.
 relevantMetrics: [loss, mean_token_accuracy, accuracy, perplexity, learning_rate, epoch, train_flos]
+lastReviewed: '2026-10-01'
 ---
 
 ## What is SFT?

@@ -4,6 +4,7 @@ name: DPO
 fullName: Direct Preference Optimization
 shortDescription: Align models with preferences without reward models.
 relevantMetrics: [loss, rewards, reward_margins, accuracy, learning_rate, epoch]
+lastReviewed: '2026-10-01'
 ---
 
 ## What is DPO?

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Terminal, AlertCircle, CheckCircle, ArrowRight, Search } from 'lucide-react';
-import { getMetrics } from '../utils/content';
+import { getMetrics, findMetricForKey } from '../utils/content';
 
 const metrics = getMetrics();
 
@@ -81,10 +81,7 @@ const LogAnalyzer = () => {
             // Match keys to metrics
             const found = [];
             Object.entries(data).forEach(([key, value]) => {
-                const lowerKey = key.toLowerCase();
-                const matchedMetric = metrics.find(m =>
-                    m.id === lowerKey || (m.aliases && m.aliases.includes(lowerKey))
-                );
+                const matchedMetric = findMetricForKey(metrics, key);
 
                 if (matchedMetric) {
                     found.push({

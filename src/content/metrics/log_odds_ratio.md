@@ -27,6 +27,7 @@ visualizations:
       - { step: 80, value: -0.2 }
       - { step: 100, value: -0.2 }
     analysis: "No preference learning. The model fails to distinguish between chosen and rejected responses, or even prefers the rejected one (negative value)."
+lastReviewed: '2026-10-01'
 ---
 Specific to ORPO. It compares the **odds** of the model producing the chosen response with the odds of it producing the rejected one. Odds = p / (1 − p), where p is the response's average per-token probability.
 

@@ -55,6 +55,7 @@ visualizations:
         - { step: 90, value: 0.02 }
         - { step: 100, value: 0.01 }
       analysis: "Zero KL throughout. The policy isn't diverging from the reference at all - this may mean no learning is happening. Check rewards/returns to confirm."
+lastReviewed: '2026-10-01'
 ---
 KL divergence measures how different the current model's predictions are from a **reference model**, usually the starting checkpoint. You can think of it as a leash: a little drift means the model is learning, a lot of drift means it may be forgetting what made it fluent.
 

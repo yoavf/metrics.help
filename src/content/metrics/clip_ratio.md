@@ -1,11 +1,12 @@
 ---
 id: clip_ratio
-name: Clip Ratio
-aliases: [clip_ratio, clip_ratio/mean, clip_ratio/region_mean, clip_fraction]
+name: Clip Ratio (Policy Updates)
+aliases: ['clip_ratio', 'clip_ratio/mean', 'clip_ratio/region_mean', 'clip_fraction', 'clip_ratio/low_mean', 'clip_ratio/high_mean', 'clip_ratio/low_min', 'clip_ratio/high_max', 'policy/clipfrac_avg']
 shortDescription: PPO update magnitude.
 whatToLookFor:
-  - 'Should be small (e.g., < 0.1 or 0.2).'
-  - If high, your learning rate might be too high or the policy is changing too drastically.
+  - 'Compare with earlier steps of the same run: a small, steady value is typical, while a sustained rise means updates are getting too large.'
+  - 'If it climbs, try a lower learning rate or fewer optimization passes per batch before touching the clip range.'
+  - 'Exactly zero all the time can mean the policy is barely changing between rollouts (for example one update per batch, where the ratio is always 1).'
 visualizations:
   yDomain: [0, 0.7]
   healthy:
@@ -26,5 +27,15 @@ visualizations:
       - { step: 80, value: 0.6 }
       - { step: 100, value: 0.5 }
     analysis: "High clipping. Many updates are being clipped, suggesting the learning rate is too high or the policy is unstable."
+lastReviewed: '2026-10-01'
 ---
-In PPO/GRPO, this measures how many training examples triggered the clipping mechanism to prevent too large policy updates.
+In PPO/GRPO, this measures the fraction of tokens whose update triggered the clipping mechanism to prevent too large policy updates.
+
+## How this is calculated
+
+- **Formula:** fraction of tokens where the probability ratio r = π_new / π_old falls outside [1 − ε, 1 + ε] (and the clip is active).
+- **Aggregation:** mean over tokens; TRL GRPO also reports `clip_ratio/low_mean` and `clip_ratio/high_mean` for each side.
+- **Units:** fraction 0–1.
+- **Source:** TRL `GRPOTrainer` (`clip_ratio/*`), `PPOTrainer` (`policy/clipfrac_avg`).
+
+**Note:** Not the same as `completions/clipped_ratio`, which counts completions cut off by the length limit (see Truncated Completions).

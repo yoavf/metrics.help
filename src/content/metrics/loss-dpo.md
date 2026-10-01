@@ -8,6 +8,7 @@ whatToLookFor:
   - 'If it stays at about 0.693, check that the reference model and data are correct and that the learning rate is not too low.'
   - 'Very low training loss is not automatically good. Compare it with eval loss and rewards/margins, and read samples. DPO can push down the probability of both responses.'
   - 'Other loss types (`ipo`, `hinge`, `robust` and others) have different scales, so the 0.693 rule only applies to the sigmoid loss.'
+lastReviewed: '2026-10-01'
 ---
 DPO trains directly on preference pairs. The loss is small when the model raises the chosen response's probability, **relative to the reference model**, more than it raises the rejected one's.
 

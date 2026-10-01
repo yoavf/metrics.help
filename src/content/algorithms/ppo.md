@@ -4,6 +4,7 @@ name: PPO
 fullName: Proximal Policy Optimization
 relevantMetrics: [rewards, kl, entropy, clip_ratio, loss, value_loss, learning_rate, completions]
 shortDescription: Proximal Policy Optimization is the classic reinforcement learning algorithm used for RLHF. It optimizes the policy to maximize reward while staying close to the reference model.
+lastReviewed: '2026-10-01'
 ---
 
 ## What is PPO?

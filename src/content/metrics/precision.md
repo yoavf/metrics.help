@@ -4,8 +4,9 @@ name: Precision
 aliases: [precision, prec, eval_precision, train_precision, val_precision]
 shortDescription: Quality of positive predictions.
 whatToLookFor:
-  - 'Important when false positives are costly (e.g., spam filter).'
-  - Often trades off with Recall.
+  - 'Important when false positives are costly (e.g. a spam filter hiding real email).'
+  - 'Often trades off with recall as you change the decision threshold.'
+  - 'Check which averaging is used for multi-class tasks.'
 visualizations:
   yDomain: [0, 1]
   healthy:
@@ -36,5 +37,13 @@ visualizations:
       - { step: 90, value: 0.45 }
       - { step: 100, value: 0.45 }
     analysis: "Low precision. The model is making too many false positive errors, failing to distinguish true positives."
+lastReviewed: '2026-10-01'
 ---
 Out of all the examples the model predicted as positive, how many were actually positive?
+
+## How this is calculated
+
+- **Formula:** true positives / (true positives + false positives).
+- **Aggregation:** over the evaluation set, per class then averaged for multi-class.
+- **Units:** fraction 0–1.
+- **Source:** your `compute_metrics` function.

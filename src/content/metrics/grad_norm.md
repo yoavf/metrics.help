@@ -4,10 +4,10 @@ name: Gradient Norm
 aliases: [grad_norm, gradient_norm, total_grad_norm]
 shortDescription: Magnitude of model updates.
 whatToLookFor:
-  - 'Should be stable (not too high, not too low).'
-  - Spikes indicate instability or bad data batches.
-  - 'Exploding (going to infinity) means you need gradient clipping.'
-  - 'Vanishing (going to zero) means the model stopped learning.'
+  - 'There is no universal healthy value; watch for changes relative to earlier in the same run.'
+  - 'Isolated spikes often come from unusual batches; frequent or growing spikes suggest instability (try a lower learning rate).'
+  - 'A value that keeps growing toward very large numbers or NaN means training is diverging. Note that `max_grad_norm` clips the update, but the logged value is usually measured before clipping.'
+  - 'A value shrinking toward zero while loss is flat can mean learning has stalled.'
 visualizations:
   yDomain: [0, 50]
   healthy:
@@ -38,5 +38,13 @@ visualizations:
       - { step: 90, value: 3.1 }
       - { step: 100, value: 50.0 }
     analysis: "Exploding gradients. The massive spikes suggest the model updates are too large, likely leading to instability. Gradient clipping is needed."
+lastReviewed: '2026-10-01'
 ---
 Measures the size of the gradient updates. It indicates how much the model weights are changing at each step.
+
+## How this is calculated
+
+- **Formula:** √(Σ g²) over all trainable parameters' gradients (L2 norm).
+- **Aggregation:** per optimizer step, before gradient clipping.
+- **Units:** unitless.
+- **Source:** Transformers `Trainer` logs `grad_norm`.

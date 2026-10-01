@@ -4,6 +4,7 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { Sparkles, Box } from 'lucide-react';
 import MetricVisualizer from '../components/MetricVisualizer';
 import MetaTags from '../components/MetaTags';
+import ReviewedNote from '../components/ReviewedNote';
 
 const MetricDetail = ({ metrics }) => {
     const { id } = useParams();
@@ -98,6 +99,7 @@ const MetricDetail = ({ metrics }) => {
                         <div className="relative z-10 prose prose-invert max-w-none">
                             <ReactMarkdown>{metric.description}</ReactMarkdown>
                         </div>
+                        <ReviewedNote date={metric.lastReviewed} />
 
                         {/* Show child variants if this is a parent with children */}
                         {childMetrics.length > 0 && (

@@ -48,6 +48,17 @@ export const getMetrics = () => {
     return Object.values(modules).map((content, index) => parseMarkdown(content, index));
 };
 
+// Match a logged key (e.g. "train/loss", "eval_rewards/margins", "rewards/format_reward/mean") to a metric.
+export const findMetricForKey = (metrics, key) => {
+    const byName = (name) => metrics.find(m => m.id === name || (m.aliases && m.aliases.includes(name)));
+    const lower = key.toLowerCase();
+    const stripped = lower.replace(/^(train|eval)\//, '');
+    const unprefixed = stripped.replace(/^(eval|train|val|validation)_/, '');
+    const perFunction = stripped.match(/^rewards\/[^/]+\/(mean|std)$/);
+    return byName(lower) || byName(stripped) || byName(unprefixed)
+        || (perFunction && byName(perFunction[1] === 'std' ? 'reward_std' : 'rewards'));
+};
+
 export const getAlgorithms = () => {
     const modules = import.meta.glob('../content/algorithms/*.md', { eager: true, query: '?raw', import: 'default' });
     console.log('Loaded algorithms modules:', Object.keys(modules).length);

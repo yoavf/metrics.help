@@ -4,6 +4,7 @@ name: GRPO
 fullName: Group Relative Policy Optimization
 shortDescription: RL without a critic model using group-normalized rewards.
 relevantMetrics: [rewards, kl, entropy, clip_ratio, loss, learning_rate, completions]
+lastReviewed: '2026-10-01'
 ---
 
 ## What is GRPO?
