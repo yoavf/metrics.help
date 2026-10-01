@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X, Search } from 'lucide-react';
+import { Activity, Github, Info, ChevronLeft, ChevronRight, Menu, X, Search, History } from 'lucide-react';
 
 const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleCollapse }) => {
     const location = useLocation();
@@ -247,6 +247,13 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                     >
                         <Info size={18} />
                     </button>
+                    <Link
+                        to="/changelog"
+                        className="p-3 border-2 border-black bg-white hover:bg-accent-pink hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                        title="Changelog"
+                    >
+                        <History size={18} />
+                    </Link>
                 </>
             ) : (
                 <>
@@ -261,6 +268,10 @@ const Sidebar = ({ metrics, algorithms, onShowCredits, isCollapsed, onToggleColl
                         <Info size={18} />
                         <span>Credits</span>
                     </button>
+                    <Link to="/changelog" className="flex items-center justify-center gap-2 text-sm font-bold border-2 border-black bg-white p-3 hover:bg-accent-pink hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
+                        <History size={18} />
+                        <span>Changelog</span>
+                    </Link>
                 </>
             )}
         </div>

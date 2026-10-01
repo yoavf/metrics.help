@@ -7,6 +7,7 @@ import ScrollToTop from './components/ScrollToTop';
 import AlgorithmDetail from './pages/AlgorithmDetail';
 import MetricDetail from './pages/MetricDetail';
 import LandingPage from './pages/LandingPage';
+import Changelog from './pages/Changelog';
 
 const metrics = getMetrics();
 const algorithms = getAlgorithms();
@@ -32,6 +33,7 @@ function App() {
               <Route path="/" element={<LandingPage metrics={metrics} />} />
               <Route path="/metric/:id" element={<MetricDetail metrics={metrics} />} />
               <Route path="/algorithm/:id" element={<AlgorithmDetail algorithms={algorithms} metrics={metrics} />} />
+              <Route path="/changelog" element={<Changelog />} />
             </Routes>
           </main>
         </div>
